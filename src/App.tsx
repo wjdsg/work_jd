@@ -1,14 +1,7 @@
-// Author: mjw
-// Date: 2026-04-13
+import { WorkspaceLayout } from './layouts/WorkspaceLayout'
 
-import { Matrix } from './features/matrix'
-
-function App() {
-  return (
-    <div className="app">
-      <Matrix />
-    </div>
-  )
+export function App({ children }: { children: React.ReactNode }) {
+  return <WorkspaceLayout>{children}</WorkspaceLayout>
 }
 
 export default App

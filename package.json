@@ -12,9 +12,12 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "date-fns": "^3.4.0",
     "idb": "^8.0.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^7.0.0",
+    "zustand": "^5.0.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.2",

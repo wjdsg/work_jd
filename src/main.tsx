@@ -3,11 +3,21 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import { AppRouter } from './routes'
+import { usePersistentStore } from './hooks/usePersistentStore'
+import { useBroadcastSync } from './hooks/useBroadcastSync'
+import { useAppTelemetry } from './hooks/useAppTelemetry'
+import './styles/global.css'
+
+export function Root() {
+  usePersistentStore()
+  useBroadcastSync()
+  useAppTelemetry()
+  return <AppRouter />
+}
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <Root />
   </React.StrictMode>,
 )

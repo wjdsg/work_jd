@@ -1,85 +1,55 @@
-// Author: mjw
-// Date: 2026-04-13
-
-import React from 'react'
-import { Task, Quadrant, TaskStatus, getQuadrantLabel, getQuadrantColor } from '@/models/task'
+import type { DragEvent } from 'react'
+import type { QuadrantId, TaskRecord } from '../../../models/task'
 import { TaskCard } from './TaskCard'
-import type { DragState } from '../hooks/useDragAndDrop'
-import './Quadrant.css'
 
-interface QuadrantComponentProps {
-  quadrant: Quadrant
-  tasks: Task[]
-  dragState: DragState
-  onDragOver: (e: React.DragEvent, quadrant: Quadrant) => void
-  onDragLeave: () => void
-  onDrop: (e: React.DragEvent, quadrant: Quadrant) => void
-  onEditTask?: (task: Task) => void
-  onDeleteTask?: (taskId: string) => void
-  onStatusChange?: (taskId: string, status: TaskStatus) => void
-  onDragStart?: (taskId: string, quadrant: Quadrant) => void
-  onDragEnd?: () => void
+interface QuadrantProps {
+  quadrantId: QuadrantId
+  title: string
+  tasks: TaskRecord[]
+  onDragOver: (event: DragEvent<HTMLElement>) => void
+  onDrop: (event: DragEvent<HTMLElement>, quadrantId: QuadrantId) => void
+  onTaskDragStart: (taskId: string, event: DragEvent<HTMLElement>) => void
+  onTaskKeyMove: (taskId: string, key: string) => void
+  onOpenDetails: (taskId: string) => void
 }
 
-export function QuadrantComponent({
-  quadrant,
+export function Quadrant({
+  quadrantId,
+  title,
   tasks,
-  dragState,
   onDragOver,
-  onDragLeave,
   onDrop,
-  onEditTask,
-  onDeleteTask,
-  onStatusChange,
-  onDragStart,
-  onDragEnd,
-}: QuadrantComponentProps) {
-  const label = getQuadrantLabel(quadrant)
-  const color = getQuadrantColor(quadrant)
-  const isDragOver = dragState.dragOverQuadrant === quadrant
-
-  const handleDragOver = (e: React.DragEvent) => {
-    onDragOver(e, quadrant)
-  }
-
-  const handleDrop = (e: React.DragEvent) => {
-    onDrop(e, quadrant)
-  }
-
-  const filteredTasks = tasks.filter((t) => t.status !== TaskStatus.Archived)
-
+  onTaskDragStart,
+  onTaskKeyMove,
+  onOpenDetails,
+}: QuadrantProps) {
   return (
-    <div
-      className={`quadrant ${isDragOver ? 'drag-over' : ''}`}
-      onDragOver={handleDragOver}
-      onDragLeave={onDragLeave}
-      onDrop={handleDrop}
+    <section
+      className="quadrant"
+      data-testid={`quadrant-${quadrantId}`}
+      onDragOver={(event) => onDragOver(event)}
+      onDrop={(event) => onDrop(event, quadrantId)}
+      aria-label={title}
     >
-      <div className="quadrant-header" style={{ borderBottomColor: color }}>
-        <h3 className="quadrant-title" style={{ color }}>
-          {label}
-        </h3>
-        <span className="quadrant-count">{filteredTasks.length}</span>
-      </div>
-      <div className="quadrant-content">
-        {filteredTasks.length === 0 ? (
-          <div className="quadrant-empty">
-            <p>拖拽任务到此处</p>
-          </div>
-        ) : (
-          filteredTasks.map((task) => (
+      <header className="quadrant-header">
+        <h3>{title}</h3>
+        <span>{tasks.length}</span>
+      </header>
+      {tasks.length === 0 ? (
+        <p className="quadrant-empty">No tasks yet</p>
+      ) : (
+        <div className="quadrant-list">
+          {tasks.map((task) => (
             <TaskCard
               key={task.id}
               task={task}
-              onEdit={onEditTask}
-              onDelete={onDeleteTask}
-              onStatusChange={onStatusChange}
-              onDragStart={onDragStart}
-              onDragEnd={onDragEnd}
+              onDragStart={onTaskDragStart}
+              onKeyMove={onTaskKeyMove}
+              onOpenDetails={onOpenDetails}
             />
-          ))
-        )}
-      </div>
-    </div>
+          ))}
+        </div>
+      )}
+    </section>
   )
 }
