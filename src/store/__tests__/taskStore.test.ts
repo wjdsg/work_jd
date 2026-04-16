@@ -27,4 +27,15 @@ describe('useTaskStore', () => {
 
     expect(record.quadrant).toBe('q4')
   })
+
+  it('assigns default dueDate when draft does not provide one', () => {
+    const record = useTaskStore.getState().addTask({
+      title: 'Deadline default task',
+      importance: 8,
+      urgency: 8,
+      tags: [],
+    })
+
+    expect(record.dueDate).toBeTruthy()
+  })
 })

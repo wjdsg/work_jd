@@ -25,6 +25,7 @@ export const useTaskStore = create<TaskState>()(
     sort: defaultSort,
     addTask: (draft) => {
       const now = new Date().toISOString()
+      const defaultDueDate = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
       const newRecord: TaskRecord = {
         id: createTaskId(),
         title: draft.title,
@@ -33,7 +34,7 @@ export const useTaskStore = create<TaskState>()(
         urgency: draft.urgency,
         quadrant: computeQuadrant(draft.importance, draft.urgency),
         status: 'todo',
-        dueDate: draft.dueDate,
+        dueDate: draft.dueDate ?? defaultDueDate,
         tags: draft.tags ?? [],
         reminders: [],
         stats: { snoozeCount: 0 },

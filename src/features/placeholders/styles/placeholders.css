@@ -36,6 +36,71 @@
   color: var(--color-text-muted);
 }
 
+.calendar-board {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-surface);
+  padding: 12px;
+  box-shadow: var(--shadow-glow);
+}
+
+.calendar-month-title {
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.calendar-day {
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 8px;
+  min-height: 90px;
+  background: rgb(15 23 42 / 52%);
+}
+
+.calendar-day-trigger {
+  border: 0;
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+  padding: 0;
+}
+
+.calendar-day-list {
+  margin-top: 6px;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.calendar-day-more {
+  margin-top: 4px;
+  font-size: 0.82rem;
+  color: #7dd3fc;
+}
+
+.calendar-selected-tasks {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-surface);
+  padding: 12px;
+  box-shadow: var(--shadow-glow);
+}
+
+.calendar-selected-tasks ul {
+  margin-top: 8px;
+  display: grid;
+  gap: 6px;
+  list-style: none;
+}
+
 @media (max-width: 900px) {
   .placeholder-grid {
     grid-template-columns: 1fr;

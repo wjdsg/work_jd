@@ -11,6 +11,7 @@ interface QuadrantProps {
   onTaskDragStart: (taskId: string, event: DragEvent<HTMLElement>) => void
   onTaskKeyMove: (taskId: string, key: string) => void
   onOpenDetails: (taskId: string) => void
+  onCompleteTask: (taskId: string) => void
 }
 
 export function Quadrant({
@@ -22,6 +23,7 @@ export function Quadrant({
   onTaskDragStart,
   onTaskKeyMove,
   onOpenDetails,
+  onCompleteTask,
 }: QuadrantProps) {
   return (
     <section
@@ -46,6 +48,7 @@ export function Quadrant({
               onDragStart={onTaskDragStart}
               onKeyMove={onTaskKeyMove}
               onOpenDetails={onOpenDetails}
+              onComplete={onCompleteTask}
             />
           ))}
         </div>

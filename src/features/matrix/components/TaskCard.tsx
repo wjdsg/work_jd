@@ -6,9 +6,10 @@ interface TaskCardProps {
   onDragStart: (taskId: string, event: DragEvent<HTMLElement>) => void
   onKeyMove: (taskId: string, key: string) => void
   onOpenDetails: (taskId: string) => void
+  onComplete: (taskId: string) => void
 }
 
-export function TaskCard({ task, onDragStart, onKeyMove, onOpenDetails }: TaskCardProps) {
+export function TaskCard({ task, onDragStart, onKeyMove, onOpenDetails, onComplete }: TaskCardProps) {
   function handleKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
     const navigationKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight']
     if (!navigationKeys.includes(event.key)) return
@@ -30,6 +31,19 @@ export function TaskCard({ task, onDragStart, onKeyMove, onOpenDetails }: TaskCa
           重要性 {task.importance} · 紧急性 {task.urgency}
         </p>
       </button>
+      {task.status !== 'completed' ? (
+        <button
+          type="button"
+          className="task-card-complete"
+          aria-label={`完成任务 ${task.title}`}
+          onClick={(event) => {
+            event.stopPropagation()
+            onComplete(task.id)
+          }}
+        >
+          ✓ 完成
+        </button>
+      ) : null}
     </article>
   )
 }

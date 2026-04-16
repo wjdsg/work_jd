@@ -1,10 +1,11 @@
 // Author: mjw
 // Date: 2026-04-15
 
-import { beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import MatrixView from '../MatrixView'
 import { useTaskStore } from '../../../store/taskStore'
+import * as dailyLogService from '../../../services/dailyLogService'
 
 describe('MatrixView', () => {
   beforeEach(() => {
@@ -67,5 +68,119 @@ describe('MatrixView', () => {
     fireEvent.keyDown(taskCard, { key: 'ArrowDown' })
 
     expect(await within(screen.getByTestId('quadrant-q3')).findByText('键盘移动任务')).toBeInTheDocument()
+  })
+
+  it('completes task by check button and does not open drawer', async () => {
+    useTaskStore.getState().addTask({
+      title: '完成任务样例',
+      importance: 10,
+      urgency: 10,
+      tags: [],
+    })
+
+    render(<MatrixView />)
+
+    fireEvent.click(await screen.findByRole('button', { name: /完成任务 完成任务样例/i }))
+
+    const record = useTaskStore.getState().tasks.find((task) => task.title === '完成任务样例')
+    expect(record?.status).toBe('completed')
+    expect(screen.queryByRole('dialog', { name: /任务详情/i })).not.toBeInTheDocument()
+  })
+
+  it('keeps completion flow when log write fails', async () => {
+    const appendSpy = vi.spyOn(dailyLogService, 'appendCompletedLog').mockImplementation(() => {
+      throw new Error('log write failed')
+    })
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+
+    useTaskStore.getState().addTask({
+      title: '日志失败任务',
+      importance: 10,
+      urgency: 10,
+      tags: [],
+    })
+
+    render(<MatrixView />)
+
+    fireEvent.click(await screen.findByRole('button', { name: /完成任务 日志失败任务/i }))
+
+    const record = useTaskStore.getState().tasks.find((task) => task.title === '日志失败任务')
+    expect(record?.status).toBe('completed')
+    expect(warnSpy).toHaveBeenCalled()
+
+    appendSpy.mockRestore()
+    warnSpy.mockRestore()
+  })
+
+  it('writes completed log with required fields', async () => {
+    const appendSpy = vi.spyOn(dailyLogService, 'appendCompletedLog')
+
+    useTaskStore.getState().addTask({
+      title: '日志字段任务',
+      importance: 10,
+      urgency: 10,
+      tags: [],
+    })
+
+    render(<MatrixView />)
+
+    fireEvent.click(await screen.findByRole('button', { name: /完成任务 日志字段任务/i }))
+
+    expect(appendSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: expect.any(String),
+        title: '日志字段任务',
+      }),
+    )
+
+    const payload = localStorage.getItem('daily-work-log')
+    expect(payload).not.toBeNull()
+    const parsed = JSON.parse(payload ?? '[]')
+    expect(parsed[parsed.length - 1]).toEqual(
+      expect.objectContaining({
+        date: expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/),
+        taskId: expect.any(String),
+        title: '日志字段任务',
+        event: 'task_completed',
+        at: expect.stringMatching(/Z$/),
+      }),
+    )
+
+    appendSpy.mockRestore()
+  })
+
+  it('does not render complete button for completed task', async () => {
+    useTaskStore.getState().addTask({
+      title: '已完成任务',
+      importance: 10,
+      urgency: 10,
+      tags: [],
+    })
+    const added = useTaskStore.getState().tasks.find((task) => task.title === '已完成任务')
+    if (added) {
+      useTaskStore.getState().updateTask(added.id, { status: 'completed' })
+    }
+
+    render(<MatrixView />)
+
+    expect(screen.queryByRole('button', { name: /完成任务 已完成任务/i })).not.toBeInTheDocument()
+  })
+
+  it('re-edits importance and urgency in drawer and recomputes quadrant', async () => {
+    useTaskStore.getState().addTask({
+      title: 'edit-me',
+      importance: 10,
+      urgency: 10,
+      tags: [],
+    })
+
+    render(<MatrixView />)
+    const openButton = await screen.findByRole('button', { name: /打开任务 edit-me/i })
+    fireEvent.click(openButton)
+
+    fireEvent.change(screen.getByLabelText(/^重要性$/i), { target: { value: '1' } })
+    fireEvent.change(screen.getByLabelText(/^紧急性$/i), { target: { value: '10' } })
+
+    expect(await within(screen.getByTestId('quadrant-q3')).findByText('edit-me')).toBeInTheDocument()
   })
 })

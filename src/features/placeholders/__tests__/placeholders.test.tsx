@@ -9,9 +9,10 @@ import InsightsPlaceholder from '../../insights/InsightsPlaceholder'
 describe('Feature placeholders', () => {
   it('renders calendar roadmap sections', () => {
     render(<CalendarPlaceholder />)
-    expect(screen.getByRole('heading', { name: /日历规划中枢/i })).toBeInTheDocument()
-    expect(screen.getByText(/时间轴视图/i)).toBeInTheDocument()
-    expect(screen.getByText(/拖拽排程/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /日历规划/i })).toBeInTheDocument()
+    expect(screen.getByText(/仅展示有 deadline 的任务/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/日历月视图/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/当天任务/i)).toBeInTheDocument()
   })
 
   it('renders insights roadmap sections', () => {

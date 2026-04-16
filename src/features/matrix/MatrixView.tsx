@@ -5,6 +5,7 @@ import { TaskForm } from './components/TaskForm'
 import { TaskDetailsDrawer } from './components/TaskDetailsDrawer'
 import { useMatrixInteractions } from './hooks/useMatrixInteractions'
 import type { QuadrantId } from '../../models/task'
+import { appendCompletedLog } from '../../services/dailyLogService'
 import './styles/matrix.css'
 
 const QUADRANTS: Array<{ id: QuadrantId; title: string }> = [
@@ -17,6 +18,7 @@ const QUADRANTS: Array<{ id: QuadrantId; title: string }> = [
 export function MatrixView() {
   const tasks = useTaskStore((state) => state.tasks)
   const addTask = useTaskStore((state) => state.addTask)
+  const updateTask = useTaskStore((state) => state.updateTask)
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null)
   const { handleDragStart, handleDragOver, handleDrop, handleTaskKeyMove } = useMatrixInteractions()
@@ -75,6 +77,16 @@ export function MatrixView() {
               handleTaskKeyMove(taskId, task.quadrant, key)
             }}
             onOpenDetails={setSelectedTaskId}
+            onCompleteTask={(taskId) => {
+              const task = tasks.find((item) => item.id === taskId)
+              if (!task) return
+              updateTask(taskId, { status: 'completed' })
+              try {
+                appendCompletedLog(task)
+              } catch (error) {
+                console.warn('daily log write failed', error)
+              }
+            }}
           />
         ))}
       </section>
@@ -86,7 +98,14 @@ export function MatrixView() {
           addTask(draft)
         }}
       />
-      <TaskDetailsDrawer task={selectedTask} open={Boolean(selectedTask)} onClose={() => setSelectedTaskId(null)} />
+      <TaskDetailsDrawer
+        task={selectedTask}
+        open={Boolean(selectedTask)}
+        onClose={() => setSelectedTaskId(null)}
+        onUpdate={(taskId, patch) => {
+          updateTask(taskId, patch)
+        }}
+      />
     </div>
   )
 }
