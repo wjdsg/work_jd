@@ -64,6 +64,15 @@ export default function SettingsView({ clockDriftMsOverride }: SettingsViewProps
     })
   }
 
+  function handleEmailReportChange(field: keyof typeof settings.emailReport, value: string | number | boolean) {
+    setSettings({
+      emailReport: {
+        ...settings.emailReport,
+        [field]: value,
+      },
+    })
+  }
+
   const quotaRatio = storageInfo && storageInfo.quota > 0 ? storageInfo.usage / storageInfo.quota : 0
 
   return (
@@ -114,6 +123,83 @@ export default function SettingsView({ clockDriftMsOverride }: SettingsViewProps
         <button type="button" onClick={() => setIsShortcutOpen(true)}>
           快捷键说明
         </button>
+      </section>
+
+      <section className="settings-panel" aria-label="邮件摘要推送">
+        <label className="settings-field" htmlFor="email-report-enabled">
+          <span>启用邮件摘要推送</span>
+          <input
+            id="email-report-enabled"
+            type="checkbox"
+            checked={settings.emailReport.enabled}
+            onChange={(event) => handleEmailReportChange('enabled', event.target.checked)}
+          />
+        </label>
+
+        <label className="settings-field" htmlFor="email-report-sender">
+          <span>QQ邮箱账号（发件人）</span>
+          <input
+            id="email-report-sender"
+            type="email"
+            value={settings.emailReport.senderEmail}
+            onChange={(event) => handleEmailReportChange('senderEmail', event.target.value)}
+            placeholder="example@qq.com"
+          />
+        </label>
+
+        <label className="settings-field" htmlFor="email-report-auth-code">
+          <span>QQ邮箱授权码</span>
+          <input
+            id="email-report-auth-code"
+            type="password"
+            value={settings.emailReport.senderAuthCode}
+            onChange={(event) => handleEmailReportChange('senderAuthCode', event.target.value)}
+            placeholder="输入16位授权码"
+          />
+        </label>
+
+        <label className="settings-field" htmlFor="email-report-recipient">
+          <span>收件邮箱</span>
+          <input
+            id="email-report-recipient"
+            type="email"
+            value={settings.emailReport.recipientEmail}
+            onChange={(event) => handleEmailReportChange('recipientEmail', event.target.value)}
+            placeholder="receiver@example.com"
+          />
+        </label>
+
+        <label className="settings-field" htmlFor="email-report-start-date">
+          <span>开始日期（按该日期起算）</span>
+          <input
+            id="email-report-start-date"
+            type="date"
+            value={settings.emailReport.startDate}
+            onChange={(event) => handleEmailReportChange('startDate', event.target.value)}
+          />
+        </label>
+
+        <label className="settings-field" htmlFor="email-report-send-time">
+          <span>发送时间</span>
+          <input
+            id="email-report-send-time"
+            type="time"
+            value={settings.emailReport.sendTime}
+            onChange={(event) => handleEmailReportChange('sendTime', event.target.value)}
+          />
+        </label>
+
+        <label className="settings-field" htmlFor="email-report-interval-days">
+          <span>发送频率（每 N 天）</span>
+          <input
+            id="email-report-interval-days"
+            type="number"
+            min={1}
+            max={365}
+            value={settings.emailReport.intervalDays}
+            onChange={(event) => handleEmailReportChange('intervalDays', Math.max(1, Number(event.target.value) || 1))}
+          />
+        </label>
       </section>
 
       <BackupPanel onStatus={setStatusMessage} />

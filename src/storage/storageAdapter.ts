@@ -3,6 +3,25 @@ import { TaskRecord } from '../models/task'
 import { ReminderSnapshot } from '../models/reminder'
 import { UserSettings, DEFAULT_SETTINGS } from '../models/settings'
 
+function mergeSettings(next?: Partial<UserSettings>): UserSettings {
+  return {
+    ...DEFAULT_SETTINGS,
+    ...next,
+    quadrantThreshold: {
+      ...DEFAULT_SETTINGS.quadrantThreshold,
+      ...next?.quadrantThreshold,
+    },
+    emailReport: {
+      ...DEFAULT_SETTINGS.emailReport,
+      ...next?.emailReport,
+    },
+    betaFlags: {
+      ...DEFAULT_SETTINGS.betaFlags,
+      ...next?.betaFlags,
+    },
+  }
+}
+
 export interface StorageAdapter {
   readAllTasks(): Promise<TaskRecord[]>
   writeTask(record: TaskRecord): Promise<void>
@@ -45,7 +64,7 @@ export function createStorageAdapter(): StorageAdapter {
     async readSettings() {
       const db = await getDB()
       const metadata = await db.get('metadata', 'singleton')
-      return metadata?.settings ?? DEFAULT_SETTINGS
+      return mergeSettings(metadata?.settings)
     },
     async writeSettings(settings) {
       const db = await getDB()

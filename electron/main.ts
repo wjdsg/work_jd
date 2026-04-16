@@ -2,7 +2,36 @@
 // Date: 2026-04-16
 
 import { app, BrowserWindow } from 'electron'
+import { ipcMain } from 'electron'
 import path from 'path'
+import nodemailer from 'nodemailer'
+
+interface EmailReportPayload {
+  senderEmail: string
+  senderAuthCode: string
+  recipientEmail: string
+  subject: string
+  text: string
+}
+
+async function sendEmailReport(payload: EmailReportPayload) {
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.qq.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: payload.senderEmail,
+      pass: payload.senderAuthCode,
+    },
+  })
+
+  await transporter.sendMail({
+    from: payload.senderEmail,
+    to: payload.recipientEmail,
+    subject: payload.subject,
+    text: payload.text,
+  })
+}
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
@@ -11,6 +40,7 @@ const createWindow = () => {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js'),
     },
   })
 
@@ -21,6 +51,16 @@ const createWindow = () => {
     mainWindow.loadFile(path.join(__dirname, '../dist/index.html'))
   }
 }
+
+ipcMain.handle('email-report:send', async (_event, payload: EmailReportPayload) => {
+  try {
+    await sendEmailReport(payload)
+    return { ok: true }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'unknown error'
+    return { ok: false, error: message }
+  }
+})
 
 app.whenReady().then(() => {
   createWindow()

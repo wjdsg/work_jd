@@ -7,12 +7,14 @@ import { AppRouter } from './routes'
 import { usePersistentStore } from './hooks/usePersistentStore'
 import { useBroadcastSync } from './hooks/useBroadcastSync'
 import { useAppTelemetry } from './hooks/useAppTelemetry'
+import { useEmailReportScheduler } from './hooks/useEmailReportScheduler'
 import './styles/global.css'
 
 export function Root() {
   usePersistentStore()
   useBroadcastSync()
   useAppTelemetry()
+  useEmailReportScheduler()
   return <AppRouter />
 }
 
