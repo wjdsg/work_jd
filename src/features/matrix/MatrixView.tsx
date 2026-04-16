@@ -8,10 +8,10 @@ import type { QuadrantId } from '../../models/task'
 import './styles/matrix.css'
 
 const QUADRANTS: Array<{ id: QuadrantId; title: string }> = [
-  { id: 'q1', title: '立即执行（重要且紧急）' },
   { id: 'q2', title: '计划推进（重要不紧急）' },
-  { id: 'q3', title: '委派处理（不重要但紧急）' },
+  { id: 'q1', title: '立即执行（重要且紧急）' },
   { id: 'q4', title: '主动剔除（不重要不紧急）' },
+  { id: 'q3', title: '委派处理（不重要但紧急）' },
 ]
 
 export function MatrixView() {

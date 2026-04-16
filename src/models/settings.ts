@@ -9,7 +9,7 @@ export interface UserSettings {
 }
 
 export const DEFAULT_SETTINGS: UserSettings = {
-  quadrantThreshold: { importance: 4, urgency: 4 },
+  quadrantThreshold: { importance: 6, urgency: 6 },
   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   theme: 'system',
   betaFlags: {},

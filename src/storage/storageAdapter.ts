@@ -1,7 +1,7 @@
 import { getDB } from './indexedDbClient'
 import { TaskRecord } from '../models/task'
 import { ReminderSnapshot } from '../models/reminder'
-import { UserSettings } from '../models/settings'
+import { UserSettings, DEFAULT_SETTINGS } from '../models/settings'
 
 export interface StorageAdapter {
   readAllTasks(): Promise<TaskRecord[]>
@@ -45,14 +45,14 @@ export function createStorageAdapter(): StorageAdapter {
     async readSettings() {
       const db = await getDB()
       const metadata = await db.get('metadata', 'singleton')
-      return metadata.settings
+      return metadata?.settings ?? DEFAULT_SETTINGS
     },
     async writeSettings(settings) {
       const db = await getDB()
-      await db.put('metadata', { key: 'singleton', schemaVersion: 1, settings })
+      await db.put('metadata', { key: 'singleton', schemaVersion: 2, settings })
     },
     async runMigration() {
-      // migrations handled in openDB upgrade for version 1
+      // migrations handled in openDB upgrade for version 2
     },
     async reset() {
       const db = await getDB()

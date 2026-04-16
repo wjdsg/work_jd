@@ -9,8 +9,8 @@ interface TaskFormProps {
 
 const initialDraft: TaskDraft = {
   title: '',
-  importance: 3,
-  urgency: 3,
+  importance: 6,
+  urgency: 6,
   tags: [],
 }
 
@@ -47,7 +47,8 @@ export function TaskForm({ open, onClose, onSave }: TaskFormProps) {
           name="importance"
           type="range"
           min={1}
-          max={5}
+          max={10}
+          step={1}
           value={draft.importance}
           onChange={(event) => setDraft((prev) => ({ ...prev, importance: Number(event.target.value) }))}
         />
@@ -58,7 +59,8 @@ export function TaskForm({ open, onClose, onSave }: TaskFormProps) {
           name="urgency"
           type="range"
           min={1}
-          max={5}
+          max={10}
+          step={1}
           value={draft.urgency}
           onChange={(event) => setDraft((prev) => ({ ...prev, urgency: Number(event.target.value) }))}
         />

@@ -91,7 +91,8 @@ export default function SettingsView({ clockDriftMsOverride }: SettingsViewProps
             id="threshold-importance"
             type="range"
             min={1}
-            max={5}
+            max={10}
+            step={1}
             value={settings.quadrantThreshold.importance}
             onChange={(event) => handleThresholdChange('importance', Number(event.target.value))}
           />
@@ -103,7 +104,8 @@ export default function SettingsView({ clockDriftMsOverride }: SettingsViewProps
             id="threshold-urgency"
             type="range"
             min={1}
-            max={5}
+            max={10}
+            step={1}
             value={settings.quadrantThreshold.urgency}
             onChange={(event) => handleThresholdChange('urgency', Number(event.target.value))}
           />

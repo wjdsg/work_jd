@@ -3,8 +3,8 @@ import { QuadrantId } from '../../../models/task'
 import { useTaskStore } from '../../../store/taskStore'
 
 const DOWNWARD_QUADRANT: Record<QuadrantId, QuadrantId> = {
-  q1: 'q2',
-  q2: 'q2',
+  q1: 'q3',
+  q2: 'q4',
   q3: 'q4',
   q4: 'q4',
 }
@@ -12,13 +12,13 @@ const DOWNWARD_QUADRANT: Record<QuadrantId, QuadrantId> = {
 const UPWARD_QUADRANT: Record<QuadrantId, QuadrantId> = {
   q1: 'q1',
   q2: 'q1',
-  q3: 'q3',
-  q4: 'q3',
+  q3: 'q1',
+  q4: 'q2',
 }
 
 const RIGHTWARD_QUADRANT: Record<QuadrantId, QuadrantId> = {
-  q1: 'q3',
-  q2: 'q4',
+  q1: 'q1',
+  q2: 'q1',
   q3: 'q3',
   q4: 'q4',
 }
@@ -26,15 +26,15 @@ const RIGHTWARD_QUADRANT: Record<QuadrantId, QuadrantId> = {
 const LEFTWARD_QUADRANT: Record<QuadrantId, QuadrantId> = {
   q1: 'q1',
   q2: 'q2',
-  q3: 'q1',
+  q3: 'q3',
   q4: 'q2',
 }
 
 const QUADRANT_TO_SCORE: Record<QuadrantId, { importance: number; urgency: number }> = {
-  q1: { importance: 5, urgency: 5 },
-  q2: { importance: 5, urgency: 2 },
-  q3: { importance: 2, urgency: 5 },
-  q4: { importance: 2, urgency: 2 },
+  q1: { importance: 10, urgency: 10 },
+  q2: { importance: 10, urgency: 1 },
+  q3: { importance: 1, urgency: 10 },
+  q4: { importance: 1, urgency: 1 },
 }
 
 function resolveQuadrantByArrow(current: QuadrantId, key: string): QuadrantId {

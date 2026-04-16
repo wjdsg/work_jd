@@ -24,12 +24,17 @@ describe('SettingsView', () => {
 
     fireEvent.change(screen.getByLabelText(/^主题模式$/i), { target: { value: 'dark' } })
     fireEvent.change(screen.getByLabelText(/^时区$/i), { target: { value: 'Asia/Shanghai' } })
-    fireEvent.change(screen.getByLabelText(/重要性阈值/i), { target: { value: '5' } })
+    expect(screen.getByLabelText(/重要性阈值/i)).toHaveAttribute('min', '1')
+    expect(screen.getByLabelText(/重要性阈值/i)).toHaveAttribute('max', '10')
+    expect(screen.getByLabelText(/紧急性阈值/i)).toHaveAttribute('min', '1')
+    expect(screen.getByLabelText(/紧急性阈值/i)).toHaveAttribute('max', '10')
+
+    fireEvent.change(screen.getByLabelText(/重要性阈值/i), { target: { value: '10' } })
 
     const settings = useSettingsStore.getState().settings
     expect(settings.theme).toBe('dark')
     expect(settings.timezone).toBe('Asia/Shanghai')
-    expect(settings.quadrantThreshold.importance).toBe(5)
+    expect(settings.quadrantThreshold.importance).toBe(10)
   })
 
   it('exports backup and imports JSON payload', async () => {

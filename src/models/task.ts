@@ -55,7 +55,7 @@ export interface TaskSort {
   direction: SortDirection
 }
 
-export function computeQuadrant(importance: number, urgency: number, thresholdImportance = 4, thresholdUrgency = 4): QuadrantId {
+export function computeQuadrant(importance: number, urgency: number, thresholdImportance = 6, thresholdUrgency = 6): QuadrantId {
   const important = importance >= thresholdImportance
   const urgent = urgency >= thresholdUrgency
   if (important && urgent) return 'q1'
