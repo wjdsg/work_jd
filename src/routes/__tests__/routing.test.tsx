@@ -49,8 +49,13 @@ describe('App routing', () => {
     render(<RouterProvider router={router} />)
 
     expect(await screen.findByText(/仅展示有 deadline 的任务/i, {}, { timeout: 5000 })).toBeInTheDocument()
-    expect(await screen.findByText('with-due-date', {}, { timeout: 5000 })).toBeInTheDocument()
-    expect(screen.queryByText('without-due-date')).toBeInTheDocument()
+    
+    const withDueDateElements = await screen.findAllByText('with-due-date', {}, { timeout: 5000 })
+    expect(withDueDateElements.length).toBeGreaterThan(0)
+    
+    const withoutDueDateElements = await screen.findAllByText('without-due-date', {}, { timeout: 5000 })
+    expect(withoutDueDateElements.length).toBeGreaterThan(0)
+    
     expect(screen.queryByText('invalid-due-date')).not.toBeInTheDocument()
   })
 

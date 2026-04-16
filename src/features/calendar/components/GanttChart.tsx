@@ -35,7 +35,13 @@ export default function GanttChart() {
   const { days } = useMemo(() => buildMonthDays(currentMonth), [currentMonth])
 
   const ganttTasks = useMemo(() => {
-    return tasks.filter((task) => task.dueDate && task.startDate)
+    return tasks.filter((task) => {
+      if (!task.dueDate || !task.startDate) return false
+      const startParsed = new Date(task.startDate)
+      const dueParsed = new Date(task.dueDate)
+      if (Number.isNaN(startParsed.getTime()) || Number.isNaN(dueParsed.getTime())) return false
+      return true
+    })
   }, [tasks])
 
   const getTaskPosition = (task: typeof tasks[0]) => {
