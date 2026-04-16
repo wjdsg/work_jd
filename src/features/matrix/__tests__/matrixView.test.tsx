@@ -183,4 +183,28 @@ describe('MatrixView', () => {
 
     expect(await within(screen.getByTestId('quadrant-q3')).findByText('edit-me')).toBeInTheDocument()
   })
+
+  it('hides completed tasks from matrix view', async () => {
+    useTaskStore.getState().addTask({
+      title: 'Visible Task',
+      importance: 10,
+      urgency: 10,
+      tags: [],
+    })
+    useTaskStore.getState().addTask({
+      title: 'Hidden Completed Task',
+      importance: 8,
+      urgency: 8,
+      tags: [],
+    })
+    const completedTask = useTaskStore.getState().tasks.find((t) => t.title === 'Hidden Completed Task')
+    if (completedTask) {
+      useTaskStore.getState().updateTask(completedTask.id, { status: 'completed' })
+    }
+
+    render(<MatrixView />)
+
+    expect(await screen.findByText('Visible Task')).toBeInTheDocument()
+    expect(screen.queryByText('Hidden Completed Task')).not.toBeInTheDocument()
+  })
 })

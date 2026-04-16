@@ -16,7 +16,8 @@ const QUADRANTS: Array<{ id: QuadrantId; title: string }> = [
 ]
 
 export function MatrixView() {
-  const tasks = useTaskStore((state) => state.tasks)
+  const allTasks = useTaskStore((state) => state.tasks)
+  const tasks = useMemo(() => allTasks.filter((t) => t.status !== 'completed'), [allTasks])
   const addTask = useTaskStore((state) => state.addTask)
   const updateTask = useTaskStore((state) => state.updateTask)
   const [isFormOpen, setIsFormOpen] = useState(false)
