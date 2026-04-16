@@ -5,7 +5,7 @@ import { computeQuadrant } from '../models/task'
 type WorkspaceDB = IDBPDatabase<unknown>
 
 const DB_NAME = 'importance-urgency-db'
-const DB_VERSION = 2
+const DB_VERSION = 3
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value))
@@ -71,6 +71,49 @@ export async function getDB(): Promise<WorkspaceDB> {
             ...legacySettings,
             quadrantThreshold: migratedThreshold,
           },
+        })
+      }
+
+      if (oldVersion >= 2 && oldVersion < 3 && transaction) {
+        const taskStore = transaction.objectStore('tasks')
+        const metadataStore = transaction.objectStore('metadata')
+        const metadata = await metadataStore.get('singleton')
+        const legacySettings = metadata?.settings ?? DEFAULT_SETTINGS
+
+        const tasks = await taskStore.getAll()
+        const MS_PER_DAY = 1000 * 60 * 60 * 24
+
+        await Promise.all(
+          tasks.map((task) => {
+            const startDate = task.startDate ?? task.createdAt
+            let dueDate = task.dueDate
+            let estimatedDays = task.estimatedDays
+
+            if (!dueDate) {
+              const startDateObj = new Date(startDate)
+              dueDate = new Date(startDateObj.getTime() + MS_PER_DAY).toISOString()
+            }
+
+            if (estimatedDays === undefined || estimatedDays === null) {
+              const startDateObj = new Date(startDate)
+              const dueDateObj = new Date(dueDate!)
+              const diffMs = dueDateObj.getTime() - startDateObj.getTime()
+              estimatedDays = Math.max(1, Math.ceil(diffMs / MS_PER_DAY))
+            }
+
+            return taskStore.put({
+              ...task,
+              startDate,
+              dueDate,
+              estimatedDays,
+            })
+          }),
+        )
+
+        await metadataStore.put({
+          key: 'singleton',
+          schemaVersion: 3,
+          settings: legacySettings,
         })
       }
     },

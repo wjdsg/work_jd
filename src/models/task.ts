@@ -39,6 +39,7 @@ export interface TaskPatch {
   importance?: number
   urgency?: number
   status?: TaskStatus
+  startDate?: string
   estimatedDays?: number
   dueDate?: string
   tags?: string[]

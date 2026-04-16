@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react'
 import { format } from 'date-fns'
 import { useTaskStore } from '../../store/taskStore'
 import '../placeholders/styles/placeholders.css'
+import GanttChart from './components/GanttChart'
 
 function toIsoDayKey(date: Date) {
   return format(date, 'yyyy-MM-dd')
@@ -83,6 +84,8 @@ export default function CalendarPlaceholder() {
           })}
         </div>
       </section>
+
+      <GanttChart />
 
       <section className="calendar-selected-tasks" aria-label="当天任务">
         <h3>当天任务（{selectedDay ?? '未选择日期'}）</h3>
