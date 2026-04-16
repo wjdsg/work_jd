@@ -7,17 +7,17 @@ export default function CalendarPlaceholder() {
   return (
     <div className="placeholder-view">
       <section className="placeholder-hero">
-        <h2>Calendar Planning Hub</h2>
-        <p>Schedule important work blocks and align reminders with timeline context.</p>
+        <h2>日历规划中枢</h2>
+        <p>把关键任务映射到时间轨道，让提醒与日程语境精确对齐。</p>
       </section>
-      <section className="placeholder-grid" aria-label="Calendar roadmap cards">
+      <section className="placeholder-grid" aria-label="日历规划路线图">
         <article className="placeholder-card">
-          <h3>Timeline View</h3>
-          <p>Week and month timeline with quadrant-aware color lanes.</p>
+          <h3>时间轴视图</h3>
+          <p>支持周/月双尺度，并以四象限能级进行颜色映射。</p>
         </article>
         <article className="placeholder-card">
-          <h3>Drag to Schedule</h3>
-          <p>Pull tasks from matrix and drop into focused calendar slots.</p>
+          <h3>拖拽排程</h3>
+          <p>从矩阵直接拖入时间格，快速构建专注执行窗口。</p>
         </article>
       </section>
     </div>

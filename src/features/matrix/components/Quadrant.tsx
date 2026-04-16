@@ -36,7 +36,7 @@ export function Quadrant({
         <span>{tasks.length}</span>
       </header>
       {tasks.length === 0 ? (
-        <p className="quadrant-empty">No tasks yet</p>
+        <p className="quadrant-empty">暂无任务</p>
       ) : (
         <div className="quadrant-list">
           {tasks.map((task) => (

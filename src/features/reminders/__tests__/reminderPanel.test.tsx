@@ -53,11 +53,11 @@ describe('ReminderPanel', () => {
 
     render(<RemindersView />)
 
-    fireEvent.click(screen.getByRole('button', { name: /snooze r_snooze/i }))
+    fireEvent.click(screen.getByRole('button', { name: /稍后提醒 r_snooze/i }))
     const snoozedReminder = useReminderStore.getState().reminders.find((item) => item.id === 'r_snooze')
     expect(snoozedReminder?.state).toBe('snoozed')
 
-    fireEvent.click(screen.getByRole('button', { name: /dismiss r_snooze/i }))
+    fireEvent.click(screen.getByRole('button', { name: /忽略提醒 r_snooze/i }))
 
     const dismissedReminder = useReminderStore.getState().reminders.find((item) => item.id === 'r_snooze')
     expect(dismissedReminder?.state).toBe('dismissed')
@@ -78,6 +78,6 @@ describe('ReminderPanel', () => {
       document.dispatchEvent(new Event('visibilitychange'))
     })
 
-    expect(screen.getByText(/browser was sleeping/i)).toBeInTheDocument()
+    expect(screen.getByText(/浏览器休眠/i)).toBeInTheDocument()
   })
 })

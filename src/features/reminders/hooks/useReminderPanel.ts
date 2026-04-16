@@ -53,7 +53,7 @@ export function useReminderPanel() {
 
       if (state === 'visible') {
         if (hiddenAt && Date.now() - hiddenAt > SLEEP_WARNING_THRESHOLD_MS) {
-          setSleepWarning('Browser was sleeping, reminders may be delayed.')
+          setSleepWarning('检测到浏览器休眠，提醒可能出现延迟。')
         }
         hiddenAt = null
         void reminderService.processDue()

@@ -7,17 +7,17 @@ export default function InsightsPlaceholder() {
   return (
     <div className="placeholder-view">
       <section className="placeholder-hero">
-        <h2>Insights Cockpit</h2>
-        <p>Understand execution quality, focus trend, and reminder responsiveness.</p>
+        <h2>洞察驾驶舱</h2>
+        <p>观察执行质量、专注趋势与提醒响应速度，持续提升任务掌控力。</p>
       </section>
-      <section className="placeholder-grid" aria-label="Insights roadmap cards">
+      <section className="placeholder-grid" aria-label="洞察路线图">
         <article className="placeholder-card">
-          <h3>Focus Score</h3>
-          <p>Track weekly focus efficiency based on planned vs completed priorities.</p>
+          <h3>专注评分</h3>
+          <p>基于计划与完成对比，生成周维度的专注效率曲线。</p>
         </article>
         <article className="placeholder-card">
-          <h3>Habit Signals</h3>
-          <p>Surface recurring context switches and overdue reminder patterns.</p>
+          <h3>习惯信号</h3>
+          <p>识别高频上下文切换与提醒滞后模式，形成改进建议。</p>
         </article>
       </section>
     </div>

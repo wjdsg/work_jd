@@ -24,7 +24,7 @@ function ReminderList({ title, reminders, onSnooze, onDismiss }: ReminderListPro
         <span>{reminders.length}</span>
       </header>
       {reminders.length === 0 ? (
-        <p className="reminder-empty">No reminders</p>
+        <p className="reminder-empty">暂无提醒</p>
       ) : (
         <ul className="reminder-list">
           {reminders.map((reminder) => (
@@ -35,13 +35,13 @@ function ReminderList({ title, reminders, onSnooze, onDismiss }: ReminderListPro
               </div>
               <div className="reminder-actions">
                 {onSnooze ? (
-                  <button type="button" onClick={() => onSnooze(reminder.id)} aria-label={`Snooze ${reminder.id}`}>
-                    Snooze
+                  <button type="button" onClick={() => onSnooze(reminder.id)} aria-label={`稍后提醒 ${reminder.id}`}>
+                    稍后提醒
                   </button>
                 ) : null}
                 {onDismiss ? (
-                  <button type="button" onClick={() => onDismiss(reminder.id)} aria-label={`Dismiss ${reminder.id}`}>
-                    Dismiss
+                  <button type="button" onClick={() => onDismiss(reminder.id)} aria-label={`忽略提醒 ${reminder.id}`}>
+                    忽略
                   </button>
                 ) : null}
               </div>
@@ -60,13 +60,13 @@ export function ReminderPanel() {
   return (
     <div className="reminder-panel">
       <header className="reminder-panel-header">
-        <h2>Reminders</h2>
+        <h2>提醒中心</h2>
       </header>
       {sleepWarning ? <p className="sleep-warning">{sleepWarning}</p> : null}
       <div className="reminder-grid">
-        <ReminderList title="Today" reminders={todayReminders} onSnooze={snoozeReminder} onDismiss={dismissReminder} />
-        <ReminderList title="Upcoming" reminders={upcomingReminders} onSnooze={snoozeReminder} onDismiss={dismissReminder} />
-        <ReminderList title="Completed" reminders={completedReminders} />
+        <ReminderList title="今日提醒" reminders={todayReminders} onSnooze={snoozeReminder} onDismiss={dismissReminder} />
+        <ReminderList title="即将到来" reminders={upcomingReminders} onSnooze={snoozeReminder} onDismiss={dismissReminder} />
+        <ReminderList title="已处理" reminders={completedReminders} />
       </div>
     </div>
   )

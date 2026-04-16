@@ -8,10 +8,10 @@ import type { QuadrantId } from '../../models/task'
 import './styles/matrix.css'
 
 const QUADRANTS: Array<{ id: QuadrantId; title: string }> = [
-  { id: 'q1', title: 'Do now (Important + Urgent)' },
-  { id: 'q2', title: 'Plan (Important + Not urgent)' },
-  { id: 'q3', title: 'Delegate (Not important + Urgent)' },
-  { id: 'q4', title: 'Eliminate (Not important + Not urgent)' },
+  { id: 'q1', title: '立即执行（重要且紧急）' },
+  { id: 'q2', title: '计划推进（重要不紧急）' },
+  { id: 'q3', title: '委派处理（不重要但紧急）' },
+  { id: 'q4', title: '主动剔除（不重要不紧急）' },
 ]
 
 export function MatrixView() {
@@ -36,30 +36,30 @@ export function MatrixView() {
     <div className="matrix-view">
       <section className="matrix-header">
         <div>
-          <h1>Importance x Urgency Matrix</h1>
-          <p>Focus on meaningful work by balancing impact and time pressure.</p>
+          <h1>重要性 x 紧急性矩阵</h1>
+          <p>以量子态专注模型平衡价值与时压，把精力投向真正关键的任务。</p>
         </div>
         <button type="button" onClick={() => setIsFormOpen(true)}>
-          Add Task
+          新建任务
         </button>
       </section>
 
-      <section className="matrix-stats" aria-label="Matrix statistics">
+      <section className="matrix-stats" aria-label="矩阵统计">
         <div>
           <strong>{tasks.length}</strong>
-          <span>Total tasks</span>
+          <span>任务总量</span>
         </div>
         <div>
           <strong>{taskByQuadrant.q1.length}</strong>
-          <span>Do now</span>
+          <span>立即执行</span>
         </div>
         <div>
           <strong>{taskByQuadrant.q2.length}</strong>
-          <span>Planned</span>
+          <span>计划推进</span>
         </div>
       </section>
 
-      <section className="matrix-grid" aria-label="Importance urgency quadrants">
+      <section className="matrix-grid" aria-label="四象限任务区域">
         {QUADRANTS.map((quadrant) => (
           <Quadrant
             key={quadrant.id}

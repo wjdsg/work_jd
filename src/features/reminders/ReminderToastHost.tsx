@@ -12,12 +12,12 @@ export function ReminderToastHost() {
     const unsubscribeChange = reminderService.onChange((reminders) => {
       const fired = reminders.find((item) => item.state === 'fired')
       if (fired) {
-        setMessage(`Reminder fired for ${fired.taskId}`)
+        setMessage(`任务 ${fired.taskId} 已触发提醒`)
       }
     })
 
     const unsubscribeError = reminderService.onError(() => {
-      setMessage('Notification fallback activated. Check reminders panel.')
+      setMessage('系统通知不可用，已切换到应用内提醒。')
     })
 
     return () => {

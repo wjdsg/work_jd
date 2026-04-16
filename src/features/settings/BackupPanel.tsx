@@ -14,47 +14,47 @@ export function BackupPanel({ onStatus }: BackupPanelProps) {
 
   async function handleExportJSON() {
     const json = await backupService.exportJSON()
-    onStatus(`Exported JSON (${json.length} chars)`)
+    onStatus(`已导出 JSON（${json.length} 字符）`)
   }
 
   async function handleExportCSV() {
     const csv = await backupService.exportCSV()
-    onStatus(`Exported CSV (${csv.split('\n').length - 1} rows)`)
+    onStatus(`已导出 CSV（${csv.split('\n').length - 1} 行）`)
   }
 
   async function handleImport() {
     try {
       const report = await backupService.importJSON(importValue)
-      const warning = report.warnings.length > 0 ? `, warning: ${report.warnings.join('; ')}` : ''
-      onStatus(`Import completed (${report.taskCount} tasks, ${report.reminderCount} reminders${warning})`)
+      const warning = report.warnings.length > 0 ? `，警告：${report.warnings.join('；')}` : ''
+      onStatus(`导入完成（${report.taskCount} 条任务，${report.reminderCount} 条提醒${warning}）`)
     } catch (error) {
-      onStatus(error instanceof Error ? error.message : 'Import failed')
+      onStatus(error instanceof Error ? error.message : '导入失败')
     }
   }
 
   return (
-    <section className="settings-panel" aria-label="Backup panel">
-      <h3>Backup</h3>
+    <section className="settings-panel" aria-label="备份面板">
+      <h3>备份与恢复</h3>
       <div className="settings-inline-actions">
         <button type="button" onClick={handleExportJSON}>
-          Export JSON
+          导出 JSON
         </button>
         <button type="button" onClick={handleExportCSV}>
-          Export CSV
+          导出 CSV
         </button>
       </div>
       <label className="settings-field" htmlFor="backup-import-json">
-        <span>Import JSON</span>
+        <span>导入 JSON</span>
         <textarea
           id="backup-import-json"
           value={importValue}
           onChange={(event) => setImportValue(event.target.value)}
           rows={8}
-          placeholder="Paste backup payload here"
+          placeholder="将备份内容粘贴到此处"
         />
       </label>
       <button type="button" onClick={handleImport}>
-        Import Backup
+        导入备份
       </button>
     </section>
   )

@@ -1,11 +1,11 @@
 import { NavLink } from 'react-router-dom'
 
 const links = [
-  { to: '/matrix', label: 'Matrix' },
-  { to: '/calendar', label: 'Calendar' },
-  { to: '/reminders', label: 'Reminders' },
-  { to: '/insights', label: 'Insights' },
-  { to: '/settings', label: 'Settings' }
+  { to: '/matrix', label: '矩阵面板' },
+  { to: '/calendar', label: '日历规划' },
+  { to: '/reminders', label: '提醒中心' },
+  { to: '/insights', label: '洞察驾驶舱' },
+  { to: '/settings', label: '系统设置' },
 ]
 
 export function NavRail() {

@@ -52,7 +52,7 @@ export default function SettingsView({ clockDriftMsOverride }: SettingsViewProps
     clearTasks()
     clearReminders()
     setMigrationError(undefined)
-    setStatusMessage('Database reset completed')
+    setStatusMessage('数据库重置完成')
   }
 
   function handleThresholdChange(field: 'importance' | 'urgency', value: number) {
@@ -69,15 +69,15 @@ export default function SettingsView({ clockDriftMsOverride }: SettingsViewProps
   return (
     <div className="settings-view">
       <header className="settings-header">
-        <h2>Settings</h2>
-        <p className="sync-chip">Sync: {syncStatus}</p>
+        <h2>系统设置</h2>
+        <p className="sync-chip">同步状态：{syncStatus === 'native' ? '原生通道' : '降级模式'}</p>
       </header>
 
-      <section className="settings-panel" aria-label="General settings">
+      <section className="settings-panel" aria-label="通用设置">
         <ThemeToggle theme={settings.theme} onChange={(theme) => setSettings({ theme })} />
 
         <label className="settings-field" htmlFor="settings-timezone">
-          <span>Timezone</span>
+          <span>时区</span>
           <input
             id="settings-timezone"
             value={settings.timezone}
@@ -86,7 +86,7 @@ export default function SettingsView({ clockDriftMsOverride }: SettingsViewProps
         </label>
 
         <label className="settings-field" htmlFor="threshold-importance">
-          <span>Importance Threshold</span>
+          <span>重要性阈值</span>
           <input
             id="threshold-importance"
             type="range"
@@ -98,7 +98,7 @@ export default function SettingsView({ clockDriftMsOverride }: SettingsViewProps
         </label>
 
         <label className="settings-field" htmlFor="threshold-urgency">
-          <span>Urgency Threshold</span>
+          <span>紧急性阈值</span>
           <input
             id="threshold-urgency"
             type="range"
@@ -110,18 +110,18 @@ export default function SettingsView({ clockDriftMsOverride }: SettingsViewProps
         </label>
 
         <button type="button" onClick={() => setIsShortcutOpen(true)}>
-          Shortcut Help
+          快捷键说明
         </button>
       </section>
 
       <BackupPanel onStatus={setStatusMessage} />
 
-      <section className="settings-panel" aria-label="Risk and diagnostics">
-        {migrationError ? <p className="warning-text">Migration error detected: {migrationError}</p> : null}
-        {quotaRatio > 0.8 ? <p className="warning-text">Privacy mode warning: storage quota is close to full.</p> : null}
-        {showClockWarning ? <p className="warning-text">Clock drift detected. Reminders may be inaccurate.</p> : null}
+      <section className="settings-panel" aria-label="风险与诊断">
+        {migrationError ? <p className="warning-text">检测到迁移异常：{migrationError}</p> : null}
+        {quotaRatio > 0.8 ? <p className="warning-text">隐私模式预警：本地存储配额接近上限。</p> : null}
+        {showClockWarning ? <p className="warning-text">检测到时钟漂移，提醒触发可能不准确。</p> : null}
         <button type="button" className="danger-button" onClick={handleResetDatabase}>
-          Reset Database
+          重置数据库
         </button>
       </section>
 

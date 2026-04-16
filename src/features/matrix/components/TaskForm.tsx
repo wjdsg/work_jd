@@ -30,10 +30,10 @@ export function TaskForm({ open, onClose, onSave }: TaskFormProps) {
   }
 
   return (
-    <div className="task-form-overlay" role="dialog" aria-modal="true" aria-label="Create task">
+    <div className="task-form-overlay" role="dialog" aria-modal="true" aria-label="新建任务">
       <form className="task-form" onSubmit={handleSubmit}>
-        <h3>Add Task</h3>
-        <label htmlFor="task-title">Title</label>
+        <h3>新建任务</h3>
+        <label htmlFor="task-title">标题</label>
         <input
           id="task-title"
           name="title"
@@ -41,7 +41,7 @@ export function TaskForm({ open, onClose, onSave }: TaskFormProps) {
           onChange={(event) => setDraft((prev) => ({ ...prev, title: event.target.value }))}
         />
 
-        <label htmlFor="task-importance">Importance</label>
+        <label htmlFor="task-importance">重要性</label>
         <input
           id="task-importance"
           name="importance"
@@ -52,7 +52,7 @@ export function TaskForm({ open, onClose, onSave }: TaskFormProps) {
           onChange={(event) => setDraft((prev) => ({ ...prev, importance: Number(event.target.value) }))}
         />
 
-        <label htmlFor="task-urgency">Urgency</label>
+        <label htmlFor="task-urgency">紧急性</label>
         <input
           id="task-urgency"
           name="urgency"
@@ -65,10 +65,10 @@ export function TaskForm({ open, onClose, onSave }: TaskFormProps) {
 
         <div className="task-form-actions">
           <button type="button" onClick={onClose}>
-            Cancel
+            取消
           </button>
           <button type="submit" disabled={!isValid}>
-            Save Task
+            保存任务
           </button>
         </div>
       </form>

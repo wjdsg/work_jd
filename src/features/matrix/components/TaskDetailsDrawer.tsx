@@ -10,18 +10,18 @@ export function TaskDetailsDrawer({ task, open, onClose }: TaskDetailsDrawerProp
   if (!open || !task) return null
 
   return (
-    <aside className="task-details-drawer" aria-label="Task details" role="dialog" aria-modal="true">
+    <aside className="task-details-drawer" aria-label="任务详情" role="dialog" aria-modal="true">
       <header>
         <h3>{task.title}</h3>
         <button type="button" onClick={onClose}>
-          Close
+          关闭
         </button>
       </header>
-      <p>History and notes are coming soon.</p>
+      <p>任务历史与备注模块即将开放。</p>
       <dl>
-        <dt>Importance</dt>
+        <dt>重要性</dt>
         <dd>{task.importance}</dd>
-        <dt>Urgency</dt>
+        <dt>紧急性</dt>
         <dd>{task.urgency}</dd>
       </dl>
     </aside>

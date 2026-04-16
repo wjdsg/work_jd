@@ -4,6 +4,8 @@
 .matrix-view {
   display: grid;
   gap: 20px;
+  position: relative;
+  z-index: 1;
 }
 
 .matrix-header {
@@ -15,16 +17,17 @@
 
 .matrix-header p {
   margin-top: 6px;
-  color: #475569;
+  color: var(--color-text-muted);
 }
 
 .matrix-header button {
-  border: 0;
+  border: 1px solid rgb(103 232 249 / 44%);
   border-radius: 12px;
   padding: 10px 14px;
-  background: #1d4ed8;
-  color: #fff;
+  background: linear-gradient(120deg, rgb(6 182 212 / 30%), rgb(21 128 61 / 22%));
+  color: #dff9ff;
   cursor: pointer;
+  box-shadow: 0 0 20px rgb(34 211 238 / 24%);
 }
 
 .matrix-stats {
@@ -34,12 +37,13 @@
 }
 
 .matrix-stats div {
-  background: #fff;
-  border: 1px solid #e2e8f0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   padding: 14px;
   display: grid;
   gap: 4px;
+  box-shadow: var(--shadow-glow);
 }
 
 .matrix-grid {
@@ -49,11 +53,12 @@
 }
 
 .quadrant {
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--color-border);
   border-radius: 14px;
-  background: #fff;
+  background: var(--color-surface);
   padding: 12px;
   min-height: 180px;
+  box-shadow: var(--shadow-glow);
 }
 
 .quadrant-header {
@@ -68,7 +73,7 @@
 }
 
 .quadrant-empty {
-  color: #64748b;
+  color: var(--color-text-muted);
 }
 
 .quadrant-list {
@@ -77,9 +82,9 @@
 }
 
 .task-card {
-  border: 1px solid #cbd5e1;
+  border: 1px solid rgb(103 232 249 / 22%);
   border-radius: 10px;
-  background: #f8fafc;
+  background: rgb(15 23 42 / 66%);
 }
 
 .task-card-main {
@@ -89,11 +94,12 @@
   text-align: left;
   background: transparent;
   cursor: pointer;
+  color: var(--color-text);
 }
 
 .task-card-main p {
   margin-top: 6px;
-  color: #475569;
+  color: var(--color-text-muted);
   font-size: 0.88rem;
 }
 
@@ -108,11 +114,31 @@
 
 .task-form {
   width: min(460px, calc(100vw - 24px));
-  background: #fff;
+  background: var(--color-surface-strong);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-glow);
   border-radius: 14px;
   padding: 16px;
   display: grid;
   gap: 8px;
+}
+
+.task-form input {
+  border: 1px solid rgb(103 232 249 / 26%);
+  border-radius: 10px;
+  background: rgb(15 23 42 / 66%);
+  color: var(--color-text);
+  padding: 8px 10px;
+}
+
+.task-form-actions button {
+  border: 1px solid rgb(103 232 249 / 32%);
+  border-radius: 8px;
+  background: rgb(15 23 42 / 72%);
+  color: var(--color-text);
+  padding: 6px 10px;
+  cursor: pointer;
 }
 
 .task-form-actions {
@@ -128,19 +154,30 @@
   top: 0;
   width: min(360px, 92vw);
   height: 100vh;
-  background: #fff;
-  border-left: 1px solid #cbd5e1;
+  background: var(--color-surface-strong);
+  border-left: 1px solid var(--color-border);
+  color: var(--color-text);
   padding: 16px;
   display: grid;
   align-content: start;
   gap: 12px;
   z-index: 25;
+  box-shadow: -16px 0 46px rgb(6 182 212 / 16%);
 }
 
 .task-details-drawer header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.task-details-drawer button {
+  border: 1px solid rgb(103 232 249 / 28%);
+  border-radius: 8px;
+  background: rgb(15 23 42 / 74%);
+  color: var(--color-text);
+  padding: 6px 10px;
+  cursor: pointer;
 }
 
 @media (max-width: 900px) {

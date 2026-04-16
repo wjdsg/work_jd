@@ -11,11 +11,11 @@ interface ThemeToggleProps {
 export function ThemeToggle({ theme, onChange }: ThemeToggleProps) {
   return (
     <label className="settings-field" htmlFor="settings-theme">
-      <span>Theme</span>
+      <span>主题模式</span>
       <select id="settings-theme" value={theme} onChange={(event) => onChange(event.target.value as UserSettings['theme'])}>
-        <option value="system">System</option>
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
+        <option value="system">跟随系统</option>
+        <option value="light">浅色模式</option>
+        <option value="dark">深色模式</option>
       </select>
     </label>
   )

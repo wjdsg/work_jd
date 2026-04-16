@@ -9,15 +9,15 @@ import InsightsPlaceholder from '../../insights/InsightsPlaceholder'
 describe('Feature placeholders', () => {
   it('renders calendar roadmap sections', () => {
     render(<CalendarPlaceholder />)
-    expect(screen.getByRole('heading', { name: /calendar planning hub/i })).toBeInTheDocument()
-    expect(screen.getByText(/timeline view/i)).toBeInTheDocument()
-    expect(screen.getByText(/drag to schedule/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /日历规划中枢/i })).toBeInTheDocument()
+    expect(screen.getByText(/时间轴视图/i)).toBeInTheDocument()
+    expect(screen.getByText(/拖拽排程/i)).toBeInTheDocument()
   })
 
   it('renders insights roadmap sections', () => {
     render(<InsightsPlaceholder />)
-    expect(screen.getByRole('heading', { name: /insights cockpit/i })).toBeInTheDocument()
-    expect(screen.getByText(/focus score/i)).toBeInTheDocument()
-    expect(screen.getByText(/habit signals/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /洞察驾驶舱/i })).toBeInTheDocument()
+    expect(screen.getByText(/专注评分/i)).toBeInTheDocument()
+    expect(screen.getByText(/习惯信号/i)).toBeInTheDocument()
   })
 })

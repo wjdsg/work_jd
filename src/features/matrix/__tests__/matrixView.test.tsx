@@ -14,30 +14,30 @@ describe('MatrixView', () => {
   it('renders matrix overview with four quadrants', () => {
     render(<MatrixView />)
 
-    expect(screen.getByRole('heading', { name: /importance x urgency matrix/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /重要性 x 紧急性矩阵/i })).toBeInTheDocument()
     expect(screen.getByTestId('quadrant-q1')).toBeInTheDocument()
     expect(screen.getByTestId('quadrant-q2')).toBeInTheDocument()
     expect(screen.getByTestId('quadrant-q3')).toBeInTheDocument()
     expect(screen.getByTestId('quadrant-q4')).toBeInTheDocument()
-    expect(screen.getAllByText(/no tasks yet/i)).toHaveLength(4)
+    expect(screen.getAllByText(/暂无任务/i)).toHaveLength(4)
   })
 
   it('creates a task from the form and shows it in expected quadrant', async () => {
     render(<MatrixView />)
 
-    fireEvent.click(screen.getByRole('button', { name: /add task/i }))
-    fireEvent.change(screen.getByLabelText(/title/i), { target: { value: 'Prepare sprint demo' } })
-    fireEvent.change(screen.getByLabelText(/^importance$/i), { target: { value: '5' } })
-    fireEvent.change(screen.getByLabelText(/^urgency$/i), { target: { value: '5' } })
-    fireEvent.click(screen.getByRole('button', { name: /save task/i }))
+    fireEvent.click(screen.getByRole('button', { name: /新建任务/i }))
+    fireEvent.change(screen.getByLabelText(/标题/i), { target: { value: '准备冲刺演示' } })
+    fireEvent.change(screen.getByLabelText(/^重要性$/i), { target: { value: '5' } })
+    fireEvent.change(screen.getByLabelText(/^紧急性$/i), { target: { value: '5' } })
+    fireEvent.click(screen.getByRole('button', { name: /保存任务/i }))
 
-    expect(await screen.findByText('Prepare sprint demo')).toBeInTheDocument()
-    expect(within(screen.getByTestId('quadrant-q1')).getByText('Prepare sprint demo')).toBeInTheDocument()
+    expect(await screen.findByText('准备冲刺演示')).toBeInTheDocument()
+    expect(within(screen.getByTestId('quadrant-q1')).getByText('准备冲刺演示')).toBeInTheDocument()
   })
 
   it('moves task with keyboard interaction between quadrants', async () => {
     useTaskStore.getState().addTask({
-      title: 'Move with keyboard',
+      title: '键盘移动任务',
       importance: 5,
       urgency: 5,
       tags: [],
@@ -45,9 +45,9 @@ describe('MatrixView', () => {
 
     render(<MatrixView />)
 
-    const taskCard = await screen.findByRole('button', { name: /open task move with keyboard/i })
+    const taskCard = await screen.findByRole('button', { name: /打开任务 键盘移动任务/i })
     fireEvent.keyDown(taskCard, { key: 'ArrowDown' })
 
-    expect(within(screen.getByTestId('quadrant-q2')).getByText('Move with keyboard')).toBeInTheDocument()
+    expect(within(screen.getByTestId('quadrant-q2')).getByText('键盘移动任务')).toBeInTheDocument()
   })
 })

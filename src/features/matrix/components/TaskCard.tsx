@@ -23,11 +23,11 @@ export function TaskCard({ task, onDragStart, onKeyMove, onOpenDetails }: TaskCa
         className="task-card-main"
         onKeyDown={handleKeyDown}
         onClick={() => onOpenDetails(task.id)}
-        aria-label={`Open task ${task.title}`}
+        aria-label={`打开任务 ${task.title}`}
       >
         <h4>{task.title}</h4>
         <p>
-          Importance {task.importance} · Urgency {task.urgency}
+          重要性 {task.importance} · 紧急性 {task.urgency}
         </p>
       </button>
     </article>

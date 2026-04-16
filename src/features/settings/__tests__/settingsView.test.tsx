@@ -20,11 +20,11 @@ describe('SettingsView', () => {
 
     render(<SettingsView />)
 
-    expect(screen.getByText(/sync: degraded/i)).toBeInTheDocument()
+    expect(screen.getByText(/同步状态：降级模式/i)).toBeInTheDocument()
 
-    fireEvent.change(screen.getByLabelText(/^theme$/i), { target: { value: 'dark' } })
-    fireEvent.change(screen.getByLabelText(/^timezone$/i), { target: { value: 'Asia/Shanghai' } })
-    fireEvent.change(screen.getByLabelText(/importance threshold/i), { target: { value: '5' } })
+    fireEvent.change(screen.getByLabelText(/^主题模式$/i), { target: { value: 'dark' } })
+    fireEvent.change(screen.getByLabelText(/^时区$/i), { target: { value: 'Asia/Shanghai' } })
+    fireEvent.change(screen.getByLabelText(/重要性阈值/i), { target: { value: '5' } })
 
     const settings = useSettingsStore.getState().settings
     expect(settings.theme).toBe('dark')
@@ -42,11 +42,11 @@ describe('SettingsView', () => {
 
     render(<SettingsView />)
 
-    fireEvent.click(screen.getByRole('button', { name: /export json/i }))
-    expect(await screen.findByText(/exported json/i)).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: /导出 json/i }))
+    expect(await screen.findByText(/已导出 json/i)).toBeInTheDocument()
 
-    fireEvent.click(screen.getByRole('button', { name: /export csv/i }))
-    expect(await screen.findByText(/exported csv/i)).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: /导出 csv/i }))
+    expect(await screen.findByText(/已导出 csv/i)).toBeInTheDocument()
 
     const payload = JSON.stringify({
       tasks: [
@@ -69,8 +69,8 @@ describe('SettingsView', () => {
       checksum: 'invalid',
     })
 
-    fireEvent.change(screen.getByLabelText(/import json/i), { target: { value: payload } })
-    fireEvent.click(screen.getByRole('button', { name: /import backup/i }))
+    fireEvent.change(screen.getByLabelText(/导入 json/i), { target: { value: payload } })
+    fireEvent.click(screen.getByRole('button', { name: /导入备份/i }))
 
     await waitFor(() => {
       expect(useTaskStore.getState().tasks.some((task) => task.id === 'task_imported')).toBe(true)
@@ -98,10 +98,10 @@ describe('SettingsView', () => {
 
     render(<SettingsView clockDriftMsOverride={180_000} />)
 
-    expect(await screen.findByText(/privacy mode warning/i)).toBeInTheDocument()
-    expect(screen.getByText(/clock drift detected/i)).toBeInTheDocument()
+    expect(await screen.findByText(/隐私模式预警/i)).toBeInTheDocument()
+    expect(screen.getByText(/检测到时钟漂移/i)).toBeInTheDocument()
 
-    fireEvent.click(screen.getByRole('button', { name: /reset database/i }))
+    fireEvent.click(screen.getByRole('button', { name: /重置数据库/i }))
 
     await waitFor(() => {
       expect(useTaskStore.getState().tasks).toHaveLength(0)
