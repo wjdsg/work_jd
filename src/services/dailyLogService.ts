@@ -12,6 +12,7 @@ export interface DailyLogItem {
 }
 
 const LOG_KEY = 'daily-work-log'
+const MAX_LOG_ITEMS = 5000
 
 function getLocalDateString(now: Date) {
   const year = now.getFullYear()
@@ -42,7 +43,7 @@ export function appendCompletedLog(task: Pick<TaskRecord, 'id' | 'title'>): Dail
   }
 
   const logs = readDailyLogs()
-  const next = [...logs, nextLog]
+  const next = [...logs, nextLog].slice(-MAX_LOG_ITEMS)
   localStorage.setItem(LOG_KEY, JSON.stringify(next))
   return nextLog
 }

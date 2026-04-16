@@ -40,6 +40,17 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const fetchEvent = event as ServiceWorkerFetchEvent
   if (fetchEvent.request.method !== 'GET') return
+  const url = new URL(fetchEvent.request.url)
+  if (url.origin !== self.location.origin) return
+  const pathname = url.pathname
+  const isStaticAsset =
+    pathname.startsWith('/assets/') ||
+    pathname.endsWith('.js') ||
+    pathname.endsWith('.css') ||
+    pathname.endsWith('.png') ||
+    pathname.endsWith('.svg') ||
+    pathname.endsWith('.ico')
+  if (!isStaticAsset && pathname !== '/' && pathname !== '/index.html') return
 
   fetchEvent.respondWith(
     caches.match(fetchEvent.request).then((cachedResponse) => {

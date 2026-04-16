@@ -85,11 +85,19 @@ export async function getDB(): Promise<WorkspaceDB> {
 
         await Promise.all(
           tasks.map((task) => {
-            const startDate = task.startDate ?? task.createdAt
+            const rawStartDate = task.startDate ?? task.createdAt
+            const parsedStart = new Date(rawStartDate)
+            const startDate = Number.isNaN(parsedStart.getTime()) ? new Date(task.createdAt).toISOString() : parsedStart.toISOString()
             let dueDate = task.dueDate
             let estimatedDays = task.estimatedDays
 
             if (!dueDate) {
+              const startDateObj = new Date(startDate)
+              dueDate = new Date(startDateObj.getTime() + MS_PER_DAY).toISOString()
+            }
+
+            const parsedDue = new Date(dueDate)
+            if (Number.isNaN(parsedDue.getTime())) {
               const startDateObj = new Date(startDate)
               dueDate = new Date(startDateObj.getTime() + MS_PER_DAY).toISOString()
             }

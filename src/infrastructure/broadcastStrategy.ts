@@ -26,7 +26,11 @@ export function createBroadcastStrategy(channelName: string): BroadcastStrategy 
     subscribe(listener) {
       const handler = (e: StorageEvent) => {
         if (e.key === channelName && e.newValue) {
-          listener(new MessageEvent('storage', { data: JSON.parse(e.newValue) }))
+          try {
+            listener(new MessageEvent('storage', { data: JSON.parse(e.newValue) }))
+          } catch {
+            return
+          }
         }
       }
       window.addEventListener('storage', handler)
