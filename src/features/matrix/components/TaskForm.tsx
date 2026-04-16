@@ -11,6 +11,7 @@ const initialDraft: TaskDraft = {
   title: '',
   importance: 6,
   urgency: 6,
+  estimatedDays: 1,
   tags: [],
 }
 
@@ -63,6 +64,18 @@ export function TaskForm({ open, onClose, onSave }: TaskFormProps) {
           step={1}
           value={draft.urgency}
           onChange={(event) => setDraft((prev) => ({ ...prev, urgency: Number(event.target.value) }))}
+        />
+
+        <label htmlFor="task-estimatedDays">预计天数</label>
+        <input
+          id="task-estimatedDays"
+          name="estimatedDays"
+          type="number"
+          min={1}
+          max={30}
+          step={1}
+          value={draft.estimatedDays ?? 1}
+          onChange={(event) => setDraft((prev) => ({ ...prev, estimatedDays: Number(event.target.value) }))}
         />
 
         <div className="task-form-actions">

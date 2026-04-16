@@ -184,6 +184,18 @@ describe('MatrixView', () => {
     expect(await within(screen.getByTestId('quadrant-q3')).findByText('edit-me')).toBeInTheDocument()
   })
 
+  it('shows estimated days input in task form', async () => {
+    render(<MatrixView />)
+
+    fireEvent.click(screen.getByRole('button', { name: /新建任务/i }))
+
+    const estimatedDaysInput = screen.getByLabelText(/预计天数/i)
+    expect(estimatedDaysInput).toHaveAttribute('type', 'number')
+    expect(estimatedDaysInput).toHaveAttribute('min', '1')
+    expect(estimatedDaysInput).toHaveAttribute('max', '30')
+    expect(estimatedDaysInput).toHaveValue(1)
+  })
+
   it('hides completed tasks from matrix view', async () => {
     useTaskStore.getState().addTask({
       title: 'Visible Task',
