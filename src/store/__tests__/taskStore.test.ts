@@ -38,4 +38,18 @@ describe('useTaskStore', () => {
 
     expect(record.dueDate).toBeTruthy()
   })
+
+  it('adds startDate and estimatedDays to task model', () => {
+    const record = useTaskStore.getState().addTask({
+      title: 'New Task with Duration',
+      importance: 8,
+      urgency: 8,
+      estimatedDays: 5,
+      tags: [],
+    })
+
+    expect(record.startDate).toBeTruthy()
+    expect(record.estimatedDays).toBe(5)
+    expect(record.dueDate).toBeTruthy()
+  })
 })

@@ -10,6 +10,8 @@ export interface TaskRecord {
   urgency: number
   quadrant: QuadrantId
   status: TaskStatus
+  startDate: string
+  estimatedDays: number
   dueDate?: string
   tags: string[]
   reminders: string[]
@@ -26,6 +28,7 @@ export interface TaskDraft {
   description?: string
   importance: number
   urgency: number
+  estimatedDays?: number
   dueDate?: string
   tags?: string[]
 }
@@ -36,6 +39,7 @@ export interface TaskPatch {
   importance?: number
   urgency?: number
   status?: TaskStatus
+  estimatedDays?: number
   dueDate?: string
   tags?: string[]
 }
