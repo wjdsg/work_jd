@@ -4,7 +4,7 @@
   "description": "Log management desktop app",
   "author": "mjw",
   "type": "module",
-  "main": "dist-electron/main.js",
+  "main": "dist-electron/main.cjs",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -14,8 +14,9 @@
     "lint": "eslint src",
     "typecheck": "tsc --noEmit",
     "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && cross-env NODE_ENV=development electron .\"",
-    "electron:build": "npm run build && tsc -p tsconfig.electron.json && electron-builder --win nsis",
-    "electron:preview": "npm run build && tsc -p tsconfig.electron.json && cross-env NODE_ENV=production electron ."
+    "electron:compile": "tsc -p tsconfig.electron.json && node scripts/prepare-electron-main.cjs",
+    "electron:build": "npm run build && npm run electron:compile && electron-builder --win nsis",
+    "electron:preview": "npm run build && npm run electron:compile && cross-env NODE_ENV=production electron ."
   },
   "build": {
     "appId": "com.mjw.core-matrix",
