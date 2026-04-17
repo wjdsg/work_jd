@@ -54,6 +54,19 @@ export const useTaskStore = create<TaskState>()(
       set((state) => ({
         tasks: state.tasks.map((task) => {
           if (task.id !== id) return task
+
+          const nextStats = { ...task.stats }
+          if (patch.status === 'completed' && task.status !== 'completed' && patch.completedAt === undefined) {
+            nextStats.completedAt = new Date().toISOString()
+          }
+          if (patch.completedAt !== undefined) {
+            if (patch.completedAt === '') {
+              delete nextStats.completedAt
+            } else {
+              nextStats.completedAt = patch.completedAt
+            }
+          }
+
           const updated: TaskRecord = {
             ...task,
             ...patch,
@@ -62,10 +75,7 @@ export const useTaskStore = create<TaskState>()(
                 ? computeQuadrant(patch.importance ?? task.importance, patch.urgency ?? task.urgency)
                 : task.quadrant,
             updatedAt: new Date().toISOString(),
-            stats:
-              patch.status === 'completed' && task.status !== 'completed'
-                ? { ...task.stats, completedAt: new Date().toISOString() }
-                : task.stats,
+            stats: nextStats,
           }
           return updated
         }),

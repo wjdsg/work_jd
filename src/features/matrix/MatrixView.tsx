@@ -20,6 +20,7 @@ export function MatrixView() {
   const tasks = useMemo(() => allTasks.filter((t) => t.status !== 'completed'), [allTasks])
   const addTask = useTaskStore((state) => state.addTask)
   const updateTask = useTaskStore((state) => state.updateTask)
+  const removeTask = useTaskStore((state) => state.removeTask)
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null)
   const { handleDragStart, handleDragOver, handleDrop, handleTaskKeyMove } = useMatrixInteractions()
@@ -88,6 +89,12 @@ export function MatrixView() {
                 console.warn('daily log write failed', error)
               }
             }}
+            onDeleteTask={(taskId) => {
+              removeTask(taskId)
+              if (selectedTaskId === taskId) {
+                setSelectedTaskId(null)
+              }
+            }}
           />
         ))}
       </section>
@@ -105,6 +112,10 @@ export function MatrixView() {
         onClose={() => setSelectedTaskId(null)}
         onUpdate={(taskId, patch) => {
           updateTask(taskId, patch)
+        }}
+        onDelete={(taskId) => {
+          removeTask(taskId)
+          setSelectedTaskId(null)
         }}
       />
     </div>

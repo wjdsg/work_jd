@@ -16,7 +16,9 @@
     "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && cross-env NODE_ENV=development electron .\"",
     "electron:compile": "tsc -p tsconfig.electron.json && node scripts/prepare-electron-main.cjs",
     "electron:build": "npm run build && npm run electron:compile && electron-builder --win nsis",
-    "electron:preview": "npm run build && npm run electron:compile && cross-env NODE_ENV=production electron ."
+    "electron:preview": "npm run build && npm run electron:compile && cross-env NODE_ENV=production electron .",
+    "android:sync": "npm run build && npx cap sync android",
+    "android:open": "npx cap open android"
   },
   "build": {
     "appId": "com.mjw.core-matrix",
@@ -47,6 +49,8 @@
     }
   },
   "dependencies": {
+    "@capacitor/android": "^8.3.1",
+    "@capacitor/core": "^8.3.1",
     "date-fns": "^3.4.0",
     "idb": "^8.0.0",
     "nodemailer": "^8.0.5",
@@ -56,6 +60,7 @@
     "zustand": "^5.0.0"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.3.1",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.1",
     "@testing-library/user-event": "^14.6.1",

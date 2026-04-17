@@ -166,6 +166,24 @@ describe('MatrixView', () => {
     expect(screen.queryByRole('button', { name: /完成任务 已完成任务/i })).not.toBeInTheDocument()
   })
 
+  it('deletes task from matrix panel', async () => {
+    useTaskStore.getState().addTask({
+      title: '删除样例任务',
+      importance: 9,
+      urgency: 8,
+      tags: [],
+    })
+
+    render(<MatrixView />)
+
+    expect(await screen.findByText('删除样例任务')).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: /删除任务 删除样例任务/i }))
+
+    expect(screen.queryByText('删除样例任务')).not.toBeInTheDocument()
+    const found = useTaskStore.getState().tasks.find((task) => task.title === '删除样例任务')
+    expect(found).toBeUndefined()
+  })
+
   it('re-edits importance and urgency in drawer and recomputes quadrant', async () => {
     useTaskStore.getState().addTask({
       title: 'edit-me',
@@ -182,6 +200,27 @@ describe('MatrixView', () => {
     fireEvent.change(screen.getByLabelText(/^紧急性$/i), { target: { value: '10' } })
 
     expect(await within(screen.getByTestId('quadrant-q3')).findByText('edit-me')).toBeInTheDocument()
+  })
+
+  it('re-edits task title and completion time in drawer', async () => {
+    useTaskStore.getState().addTask({
+      title: '原始任务名',
+      importance: 7,
+      urgency: 7,
+      tags: [],
+    })
+
+    render(<MatrixView />)
+    fireEvent.click(await screen.findByRole('button', { name: /打开任务 原始任务名/i }))
+
+    fireEvent.change(screen.getByLabelText(/^任务名$/i), { target: { value: '修改后的任务名' } })
+    fireEvent.change(screen.getByLabelText(/^完成时间$/i), { target: { value: '2026-04-20T10:30' } })
+
+    expect(await screen.findByRole('button', { name: /打开任务 修改后的任务名/i })).toBeInTheDocument()
+
+    const updated = useTaskStore.getState().tasks.find((task) => task.title === '修改后的任务名')
+    expect(updated).toBeDefined()
+    expect(new Date(updated?.stats.completedAt ?? '').toISOString()).toBe(new Date('2026-04-20T10:30').toISOString())
   })
 
   it('shows estimated days input in task form', async () => {

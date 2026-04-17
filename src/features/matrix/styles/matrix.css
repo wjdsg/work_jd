@@ -115,6 +115,17 @@
   cursor: pointer;
 }
 
+.task-card-delete {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid rgb(251 113 133 / 30%);
+  background: rgb(159 18 57 / 26%);
+  color: #ffd1da;
+  padding: 8px 10px;
+  text-align: left;
+  cursor: pointer;
+}
+
 .task-form-overlay {
   position: fixed;
   inset: 0;
@@ -183,6 +194,11 @@
   align-items: center;
 }
 
+.task-details-actions {
+  display: flex;
+  gap: 8px;
+}
+
 .task-details-drawer button {
   border: 1px solid rgb(103 232 249 / 28%);
   border-radius: 8px;
@@ -190,6 +206,21 @@
   color: var(--color-text);
   padding: 6px 10px;
   cursor: pointer;
+}
+
+.task-delete-danger {
+  border-color: rgb(251 113 133 / 60%) !important;
+  color: #ffd1da !important;
+  background: rgb(159 18 57 / 28%) !important;
+}
+
+.task-details-drawer input {
+  width: 100%;
+  border: 1px solid rgb(103 232 249 / 28%);
+  border-radius: 8px;
+  background: rgb(15 23 42 / 74%);
+  color: var(--color-text);
+  padding: 6px 8px;
 }
 
 @media (max-width: 900px) {

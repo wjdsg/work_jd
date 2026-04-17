@@ -7,9 +7,10 @@ interface TaskCardProps {
   onKeyMove: (taskId: string, key: string) => void
   onOpenDetails: (taskId: string) => void
   onComplete: (taskId: string) => void
+  onDelete: (taskId: string) => void
 }
 
-export function TaskCard({ task, onDragStart, onKeyMove, onOpenDetails, onComplete }: TaskCardProps) {
+export function TaskCard({ task, onDragStart, onKeyMove, onOpenDetails, onComplete, onDelete }: TaskCardProps) {
   function handleKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
     const navigationKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight']
     if (!navigationKeys.includes(event.key)) return
@@ -44,6 +45,17 @@ export function TaskCard({ task, onDragStart, onKeyMove, onOpenDetails, onComple
           ✓ 完成
         </button>
       ) : null}
+      <button
+        type="button"
+        className="task-card-delete"
+        aria-label={`删除任务 ${task.title}`}
+        onClick={(event) => {
+          event.stopPropagation()
+          onDelete(task.id)
+        }}
+      >
+        🗑 删除
+      </button>
     </article>
   )
 }
