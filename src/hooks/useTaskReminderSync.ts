@@ -37,7 +37,7 @@ export function useTaskReminderSync() {
         }
 
         if (!shouldHaveReminder && exists) {
-          reminderStore.remove(reminderId)
+          reminderStore.updateState(reminderId, 'dismissed')
         }
       })
 

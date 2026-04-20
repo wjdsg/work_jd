@@ -18,7 +18,7 @@ describe('useTaskReminderSync', () => {
     useReminderStore.getState().clear()
   })
 
-  it('creates reminder from task due date and removes it after completion', () => {
+  it('creates reminder from task due date and marks it dismissed after completion', () => {
     const task = useTaskStore.getState().addTask({
       title: '联动任务',
       importance: 8,
@@ -35,6 +35,6 @@ describe('useTaskReminderSync', () => {
     useTaskStore.getState().updateTask(task.id, { status: 'completed' })
 
     const afterCompleted = useReminderStore.getState().reminders.find((item) => item.taskId === task.id)
-    expect(afterCompleted).toBeUndefined()
+    expect(afterCompleted?.state).toBe('dismissed')
   })
 })
