@@ -9,6 +9,9 @@ export function HeaderBar() {
   return (
     <header className="header-bar">
       <div className="workspace-meta">
+        <span className="workspace-badge" title="Core Matrix">
+          ◆ Core Matrix
+        </span>
         <span className="workspace-date">{now}</span>
         <span className="workspace-version" title="当前应用版本">
           v{appVersion}

@@ -5,12 +5,14 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import RemindersView from '../RemindersPlaceholder'
 import { useReminderStore } from '../../../store/reminderStore'
+import { useTaskStore } from '../../../store/taskStore'
 
 describe('ReminderPanel', () => {
   beforeEach(() => {
     vi.useFakeTimers()
     vi.setSystemTime(new Date('2026-04-15T09:00:00.000Z'))
     useReminderStore.getState().clear()
+    useTaskStore.getState().clear()
   })
 
   afterEach(() => {
@@ -18,9 +20,24 @@ describe('ReminderPanel', () => {
   })
 
   it('renders today and upcoming reminders', () => {
+    const taskToday = useTaskStore.getState().addTask({
+      title: 'task_today',
+      importance: 8,
+      urgency: 8,
+      dueDate: '2026-04-15T09:05:00.000Z',
+      tags: [],
+    })
+    const taskUpcoming = useTaskStore.getState().addTask({
+      title: 'task_upcoming',
+      importance: 8,
+      urgency: 8,
+      dueDate: '2026-04-16T09:00:00.000Z',
+      tags: [],
+    })
+
     useReminderStore.getState().schedule({
       id: 'r_today',
-      taskId: 'task_today',
+      taskId: taskToday.id,
       minutesBefore: 10,
       fireAt: '2026-04-15T09:05:00.000Z',
       channel: 'in-app',
@@ -28,7 +45,7 @@ describe('ReminderPanel', () => {
     })
     useReminderStore.getState().schedule({
       id: 'r_upcoming',
-      taskId: 'task_upcoming',
+      taskId: taskUpcoming.id,
       minutesBefore: 15,
       fireAt: '2026-04-16T09:00:00.000Z',
       channel: 'in-app',
@@ -82,9 +99,24 @@ describe('ReminderPanel', () => {
   })
 
   it('keeps dismissed reminders out of today and upcoming lists', () => {
+    const doneToday = useTaskStore.getState().addTask({
+      title: 'task_done_today',
+      importance: 8,
+      urgency: 8,
+      dueDate: '2026-04-15T09:10:00.000Z',
+      tags: [],
+    })
+    const doneUpcoming = useTaskStore.getState().addTask({
+      title: 'task_done_upcoming',
+      importance: 8,
+      urgency: 8,
+      dueDate: '2026-04-16T09:10:00.000Z',
+      tags: [],
+    })
+
     useReminderStore.getState().schedule({
       id: 'r_done_today',
-      taskId: 'task_done_today',
+      taskId: doneToday.id,
       minutesBefore: 5,
       fireAt: '2026-04-15T09:10:00.000Z',
       channel: 'in-app',
@@ -92,7 +124,7 @@ describe('ReminderPanel', () => {
     })
     useReminderStore.getState().schedule({
       id: 'r_done_upcoming',
-      taskId: 'task_done_upcoming',
+      taskId: doneUpcoming.id,
       minutesBefore: 5,
       fireAt: '2026-04-16T09:10:00.000Z',
       channel: 'in-app',

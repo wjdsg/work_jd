@@ -42,6 +42,7 @@ export function MatrixView() {
         <div>
           <h1>重要性 x 紧急性矩阵</h1>
           <p>以量子态专注模型平衡价值与时压，把精力投向真正关键的任务。</p>
+          <p className="matrix-love">I love gzh</p>
         </div>
         <button type="button" onClick={() => setIsFormOpen(true)}>
           新建任务

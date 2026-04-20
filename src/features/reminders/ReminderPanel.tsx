@@ -32,7 +32,6 @@ function ReminderList({ title, reminders, onSnooze, onDismiss }: ReminderListPro
           {reminders.map((reminder) => (
             <li key={reminder.id} className="reminder-item">
               <div>
-                <strong>{reminder.taskId}</strong>
                 <p>{reminder.taskLabel}</p>
                 <p>{format(new Date(reminder.fireAt), 'PPp')}</p>
               </div>

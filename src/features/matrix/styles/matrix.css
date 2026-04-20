@@ -20,6 +20,13 @@
   color: var(--color-text-muted);
 }
 
+.matrix-love {
+  margin-top: 6px;
+  color: rgb(74 222 128);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
 .matrix-header button {
   border: 1px solid rgb(103 232 249 / 44%);
   border-radius: 12px;

@@ -117,6 +117,21 @@ flowchart LR
 
 > 注意：SMTP 真正发送在 Electron 主进程完成；Web 端保持配置和调度同步，但无 Node SMTP 发送能力。
 
+### 3.4 提醒中心联动（新）
+
+- 任务与提醒自动联动：有 `dueDate` 且未完成的任务会自动生成提醒
+- 任务完成后提醒会进入“已处理”分组（不再直接丢失）
+- 分类规则：
+  - `今日提醒` / `即将到来` 仅显示活跃状态（scheduled、snoozed）
+  - `已处理` 显示 dismissed / fired
+- 提醒中心仅显示任务标题，不显示内部任务 ID
+
+### 3.5 界面增强（新）
+
+- 页头显示应用版本号徽标（如 `v1.0.0`）
+- 页头显示品牌徽标 `◆ Core Matrix`
+- 首页（矩阵页）增加文案：`I love gzh`
+
 ---
 
 ## 4. 环境要求
@@ -157,8 +172,19 @@ npm run lint
 
 ```bash
 npm run build
+```
 
-### 5.6 English Quick Start
+### 5.6 Android（Capacitor）
+
+```bash
+# 同步 Web 构建到 Android 工程
+npm run android:sync
+
+# 用 Android Studio 打开原生工程
+npm run android:open
+```
+
+### 5.7 English Quick Start
 
 ```bash
 # Install
@@ -181,7 +207,10 @@ npm run electron:dev
 
 # Electron package (Windows installer)
 npm run electron:build
-```
+
+# Android sync/open
+npm run android:sync
+npm run android:open
 ```
 
 ---
