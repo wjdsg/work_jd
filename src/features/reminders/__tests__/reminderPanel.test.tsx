@@ -2,7 +2,7 @@
 // Date: 2026-04-15
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { act, fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import RemindersView from '../RemindersPlaceholder'
 import { useReminderStore } from '../../../store/reminderStore'
 
@@ -79,5 +79,37 @@ describe('ReminderPanel', () => {
     })
 
     expect(screen.getByText(/浏览器休眠/i)).toBeInTheDocument()
+  })
+
+  it('keeps dismissed reminders out of today and upcoming lists', () => {
+    useReminderStore.getState().schedule({
+      id: 'r_done_today',
+      taskId: 'task_done_today',
+      minutesBefore: 5,
+      fireAt: '2026-04-15T09:10:00.000Z',
+      channel: 'in-app',
+      enabled: true,
+    })
+    useReminderStore.getState().schedule({
+      id: 'r_done_upcoming',
+      taskId: 'task_done_upcoming',
+      minutesBefore: 5,
+      fireAt: '2026-04-16T09:10:00.000Z',
+      channel: 'in-app',
+      enabled: true,
+    })
+    useReminderStore.getState().updateState('r_done_today', 'dismissed')
+    useReminderStore.getState().updateState('r_done_upcoming', 'dismissed')
+
+    render(<RemindersView />)
+
+    const todaySection = screen.getByRole('region', { name: /今日提醒/i })
+    const upcomingSection = screen.getByRole('region', { name: /即将到来/i })
+    const completedSection = screen.getByRole('region', { name: /已处理/i })
+
+    expect(within(todaySection).queryByText(/task_done_today/i)).not.toBeInTheDocument()
+    expect(within(upcomingSection).queryByText(/task_done_upcoming/i)).not.toBeInTheDocument()
+    expect(within(completedSection).getByText(/task_done_today/i)).toBeInTheDocument()
+    expect(within(completedSection).getByText(/task_done_upcoming/i)).toBeInTheDocument()
   })
 })

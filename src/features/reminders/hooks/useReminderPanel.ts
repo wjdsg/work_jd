@@ -25,7 +25,8 @@ export function useReminderPanel() {
     const now = new Date()
     return reminders.filter((reminder) => {
       const fireAt = new Date(reminder.fireAt)
-      return reminder.state !== 'dismissed' && isSameDay(fireAt, now)
+      const active = reminder.state === 'scheduled' || reminder.state === 'snoozed'
+      return active && isSameDay(fireAt, now)
     })
   }, [reminders])
 
@@ -33,7 +34,8 @@ export function useReminderPanel() {
     const now = new Date()
     return reminders.filter((reminder) => {
       const fireAt = new Date(reminder.fireAt)
-      return reminder.state !== 'dismissed' && fireAt > now && !isSameDay(fireAt, now)
+      const active = reminder.state === 'scheduled' || reminder.state === 'snoozed'
+      return active && fireAt > now && !isSameDay(fireAt, now)
     })
   }, [reminders])
 

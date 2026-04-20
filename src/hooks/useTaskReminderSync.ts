@@ -36,7 +36,17 @@ export function useTaskReminderSync() {
           })
         }
 
-        if (!shouldHaveReminder && exists) {
+        if (!shouldHaveReminder) {
+          if (!exists && task.status === 'completed' && task.dueDate) {
+            reminderService.schedule({
+              id: reminderId,
+              taskId: task.id,
+              minutesBefore: DEFAULT_MINUTES_BEFORE,
+              fireAt: task.dueDate,
+              channel: 'in-app',
+              enabled: true,
+            })
+          }
           reminderStore.updateState(reminderId, 'dismissed')
         }
       })

@@ -37,4 +37,20 @@ describe('useTaskReminderSync', () => {
     const afterCompleted = useReminderStore.getState().reminders.find((item) => item.taskId === task.id)
     expect(afterCompleted?.state).toBe('dismissed')
   })
+
+  it('creates dismissed reminder for completed task that had no prior reminder', () => {
+    const task = useTaskStore.getState().addTask({
+      title: '先完成再联动',
+      importance: 8,
+      urgency: 8,
+      dueDate: '2026-05-02T09:00:00.000Z',
+      tags: [],
+    })
+    useTaskStore.getState().updateTask(task.id, { status: 'completed' })
+
+    render(<HookHost />)
+
+    const linked = useReminderStore.getState().reminders.find((item) => item.taskId === task.id)
+    expect(linked?.state).toBe('dismissed')
+  })
 })
