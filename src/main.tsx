@@ -8,6 +8,7 @@ import { usePersistentStore } from './hooks/usePersistentStore'
 import { useBroadcastSync } from './hooks/useBroadcastSync'
 import { useAppTelemetry } from './hooks/useAppTelemetry'
 import { useEmailReportScheduler } from './hooks/useEmailReportScheduler'
+import { useTaskReminderSync } from './hooks/useTaskReminderSync'
 import './styles/global.css'
 
 export function Root() {
@@ -15,6 +16,7 @@ export function Root() {
   useBroadcastSync()
   useAppTelemetry()
   useEmailReportScheduler()
+  useTaskReminderSync()
   return <AppRouter />
 }
 

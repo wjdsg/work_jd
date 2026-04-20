@@ -3,16 +3,19 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { createReminderService } from '../../services/reminderService'
+import { useTaskStore } from '../../store/taskStore'
 
 export function ReminderToastHost() {
   const reminderService = useMemo(() => createReminderService(), [])
   const [message, setMessage] = useState<string | null>(null)
+  const tasks = useTaskStore((state) => state.tasks)
 
   useEffect(() => {
     const unsubscribeChange = reminderService.onChange((reminders) => {
       const fired = reminders.find((item) => item.state === 'fired')
       if (fired) {
-        setMessage(`任务 ${fired.taskId} 已触发提醒`)
+        const title = tasks.find((task) => task.id === fired.taskId)?.title ?? fired.taskId
+        setMessage(`任务 ${title} 已触发提醒`)
       }
     })
 
@@ -24,7 +27,7 @@ export function ReminderToastHost() {
       unsubscribeChange()
       unsubscribeError()
     }
-  }, [reminderService])
+  }, [reminderService, tasks])
 
   if (!message) return null
 

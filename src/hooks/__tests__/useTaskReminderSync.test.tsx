@@ -1,0 +1,40 @@
+// Author: mjw
+// Date: 2026-04-17
+
+import { describe, it, expect, beforeEach } from 'vitest'
+import { render } from '@testing-library/react'
+import { useTaskStore } from '../../store/taskStore'
+import { useReminderStore } from '../../store/reminderStore'
+import { useTaskReminderSync } from '../useTaskReminderSync'
+
+function HookHost() {
+  useTaskReminderSync()
+  return null
+}
+
+describe('useTaskReminderSync', () => {
+  beforeEach(() => {
+    useTaskStore.getState().clear()
+    useReminderStore.getState().clear()
+  })
+
+  it('creates reminder from task due date and removes it after completion', () => {
+    const task = useTaskStore.getState().addTask({
+      title: '联动任务',
+      importance: 8,
+      urgency: 8,
+      dueDate: '2026-05-01T10:00:00.000Z',
+      tags: [],
+    })
+
+    render(<HookHost />)
+
+    const linked = useReminderStore.getState().reminders.find((item) => item.taskId === task.id)
+    expect(linked).toBeDefined()
+
+    useTaskStore.getState().updateTask(task.id, { status: 'completed' })
+
+    const afterCompleted = useReminderStore.getState().reminders.find((item) => item.taskId === task.id)
+    expect(afterCompleted).toBeUndefined()
+  })
+})

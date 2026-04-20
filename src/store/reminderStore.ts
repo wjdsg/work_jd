@@ -18,7 +18,14 @@ export const useReminderStore = create<ReminderState>()(
     hydrate: (records) => set({ reminders: records }),
     schedule: (config) => {
       const reminder: ReminderSnapshot = { ...config, state: 'scheduled', snoozeCount: 0 }
-      set((state) => ({ reminders: [...state.reminders, reminder] }))
+      set((state) => {
+        const exists = state.reminders.some((item) => item.id === reminder.id)
+        return {
+          reminders: exists
+            ? state.reminders.map((item) => (item.id === reminder.id ? { ...item, ...reminder } : item))
+            : [...state.reminders, reminder],
+        }
+      })
       return reminder
     },
     updateReminder: (id, patch) =>
