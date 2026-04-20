@@ -126,9 +126,9 @@ flowchart LR
   - `已处理` 显示 dismissed / fired
 - 提醒中心仅显示任务标题，不显示内部任务 ID
 
-### 3.5 界面增强（新）
+### 3.5 界面增强
 
-- 页头显示应用版本号徽标（如 `v1.0.0`）
+- 页头显示应用版本号徽标（如 `v1.0.1`）
 - 页头显示品牌徽标 `◆ Core Matrix`
 - 首页（矩阵页）增加文案：`I love gzh`
 
@@ -237,7 +237,7 @@ npm run electron:build
 
 输出目录：
 
-- `release/Core Matrix Setup 1.0.0.exe`
+- `release/Core Matrix Setup 1.0.1.exe`
 
 ---
 
@@ -247,12 +247,12 @@ npm run electron:build
 
 双击：
 
-- `release/Core Matrix Setup 1.0.0.exe`
+- `release/Core Matrix Setup 1.0.1.exe`
 
 ### 7.2 静默安装
 
 ```bat
-"D:\移动创新研究院工作\2026\opencode\agenttest\release\Core Matrix Setup 1.0.0.exe" /S
+"D:\移动创新研究院工作\2026\opencode\agenttest\release\Core Matrix Setup 1.0.1.exe" /S
 ```
 
 默认安装路径：
